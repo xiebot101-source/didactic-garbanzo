@@ -170,6 +170,23 @@ body:before{
 }
 .hint{font-size:9px;color:#667890;margin-top:12px}
 
+.swap-picker{
+  margin:18px auto 0;max-width:900px;background:linear-gradient(145deg,#101b2e,#0e1628);
+  border:1px solid #203652;border-radius:16px;padding:14px;
+}
+.picker-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.picker-head strong{font-size:12px;letter-spacing:.5px}.picker-head span{font-size:10px;color:#718198}
+.picker-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;max-height:220px;overflow:auto;padding-right:3px}
+.picker-grid::-webkit-scrollbar{width:5px}.picker-grid::-webkit-scrollbar-thumb{background:#263653;border-radius:10px}
+.pick-card{min-height:74px;border:1px solid #263a55;border-radius:9px;background:#121e31;padding:7px;text-align:center;cursor:pointer;transition:.15s}
+.pick-card:hover{transform:translateY(-1px);border-color:#35d8c8}
+.pick-card .pick-img{font-size:20px}.pick-card .pick-name{font-size:8px;color:#d6c7ee;font-weight:800;margin-top:3px}.pick-card .pick-val{font-size:8px;color:#40cfff;font-weight:900;margin-top:3px}
+.trade-box{cursor:pointer}.trade-box.selected{border-color:#35d8c8;box-shadow:0 0 0 1px #35d8c8aa}
+.slot.filled{display:flex;flex-direction:column;gap:3px;padding:8px;color:#dfe8f5;font-size:10px;text-align:center;background:#13223a;border-style:solid}
+.slot.filled b{font-size:10px}.slot.filled small{color:#40cfff;font-weight:900}
+@media(max-width:850px){.picker-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:520px){.picker-grid{grid-template-columns:repeat(3,1fr)}.swap-grid{gap:8px}.slot{height:105px}}
+
 footer{text-align:center;color:#5e6d84;font-size:10px;margin-top:45px}
 
 
@@ -266,8 +283,19 @@ html, body {
 .login-modal .modal-icon{width:54px;height:54px;margin:0 auto 14px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:24px}
 .login-modal h2{margin:0 0 8px;font-family:"Barlow Condensed",sans-serif;font-size:30px;letter-spacing:1px}
 .login-modal p{margin:0 auto 20px;color:var(--muted);font-size:13px;line-height:1.6;max-width:340px}
-.login-modal .roblox.com.ml/users/245063442107/profile{display:flex;align-items:center;justify-content:center;width:100%;height:46px;border-radius:11px;text-decoration:none;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 28px rgba(255,61,129,.18)}
+.login-modal .roblox-link{display:flex;align-items:center;justify-content:center;width:100%;height:46px;border-radius:11px;text-decoration:none;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 28px rgba(255,61,129,.18)}
 .login-modal .cancel-btn{margin-top:10px;width:100%;height:42px;border:1px solid #293b57;border-radius:10px;background:#0b1526;color:#9aa8bd;font-weight:700;cursor:pointer}
+.godly-modal{width:min(560px,100%);background:linear-gradient(160deg,#111d33,#0c1425);border:1px solid #29405f;border-radius:20px;padding:22px;box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:left}
+.godly-modal .picker-head{margin-bottom:14px}
+.godly-modal .picker-head strong{font-size:16px;font-family:"Barlow Condensed",sans-serif;letter-spacing:1px}
+.godly-modal .picker-grid{grid-template-columns:repeat(6,1fr)}
+.godly-modal .cancel-btn{margin-top:14px;width:100%;height:42px;border:1px solid #293b57;border-radius:10px;background:#0b1526;color:#9aa8bd;font-weight:700;cursor:pointer}
+#godlyScroll{max-height:400px;overflow-y:auto;padding-right:6px}
+#godlyScroll::-webkit-scrollbar{width:5px}
+#godlyScroll::-webkit-scrollbar-thumb{background:#263653;border-radius:10px}
+.godly-tier-title{font-size:11px;font-weight:800;letter-spacing:.5px;color:#40cfff;margin:14px 0 7px}
+.godly-tier-title:first-child{margin-top:0}
+@media(max-width:520px){.godly-modal .picker-grid{grid-template-columns:repeat(3,1fr)}}
 .login-note{font-size:11px!important;margin-top:12px!important;margin-bottom:0!important;color:#687890!important}
 </style>
 </head>
@@ -418,31 +446,34 @@ html, body {
 </section>
 
 <section id="swap" class="page-section">
-  <div class="hero"><h1>NOVA SWAP</h1><p>Your value must be equal or greater than the bot's value.</p></div>
-  <div class="swap-wrap">
-    <div class="swap-grid">
-      <div class="trade-box">
-        <span class="trade-title">YOU GIVE</span>
-        <span class="trade-value">💎 0</span>
-        <div class="slots">
-          <div class="slot">＋</div><div class="slot">＋</div>
-          <div class="slot">＋</div><div class="slot">＋</div>
-        </div>
-      </div>
-      <div class="swap-middle">
-        <div class="swap-icon">⇄</div>
-        <button class="swap-btn">SWAP</button>
-        <div class="hint">click to remove</div>
-      </div>
-      <div class="trade-box">
-        <span class="trade-title">BOT GIVE</span>
-        <span class="trade-value">💎 0</span>
-        <div class="slots">
-          <div class="slot">＋</div><div class="slot">＋</div>
-          <div class="slot">＋</div><div class="slot">＋</div>
-        </div>
+  <div class="hero"><h1>JACE SWAP</h1><p>Select items from the value list and build both sides of the trade.</p></div>
+  <div class="swap-grid">
+    <div class="trade-box selected" id="giveBox" data-side="give">
+      <span class="trade-title">YOU GIVE</span>
+      <span class="trade-value" id="giveTotal">💎 0</span>
+      <div class="slots" id="giveSlots">
+        <div class="slot add-slot">＋</div><div class="slot add-slot">＋</div>
+        <div class="slot add-slot">＋</div><div class="slot add-slot">＋</div>
       </div>
     </div>
+    <div class="swap-middle">
+      <div class="swap-icon">⇄</div>
+      <button class="swap-btn" id="swapAction">SWAP</button>
+      <div class="hint">Choose a side, then click an item below</div>
+    </div>
+    <div class="trade-box" id="botBox" data-side="bot">
+      <span class="trade-title">BOT GIVE</span>
+      <span class="trade-value" id="botTotal">💎 0</span>
+      <div class="slots" id="botSlots">
+        <div class="slot add-slot">＋</div><div class="slot add-slot">＋</div>
+        <div class="slot add-slot">＋</div><div class="slot add-slot">＋</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="swap-picker">
+    <div class="picker-head"><strong>CHOOSE FROM VALUES</strong><span>Click an item to add it to the selected side · click a filled slot to remove it</span></div>
+    <div class="picker-grid" id="swapPicker"></div>
   </div>
 </section>
 
@@ -455,6 +486,17 @@ html, body {
     <a class="roblox-link" href="https://www.roblox.com/login" target="_blank" rel="noopener noreferrer">CONTINUE TO ROBLOX</a>
     <button class="cancel-btn" id="closeLogin">CANCEL</button>
     <p class="login-note">After your account connection is implemented, you can return here and continue the swap.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="godlyModal" aria-hidden="true">
+  <div class="godly-modal" role="dialog" aria-modal="true" aria-labelledby="godlyTitle">
+    <div class="picker-head">
+      <strong id="godlyTitle">CHOOSE AN ITEM</strong>
+      <span>Click an item to add it to this slot</span>
+    </div>
+    <div id="godlyScroll"></div>
+    <button class="cancel-btn" id="closeGodly">CANCEL</button>
   </div>
 </div>
 
@@ -495,6 +537,114 @@ startSwap?.addEventListener('click', openLogin);
 closeLogin?.addEventListener('click', closeLoginModal);
 loginModal?.addEventListener('click', e => { if(e.target === loginModal) closeLoginModal(); });
 
+
+// Swap builder: uses the same value cards shown on the Values page.
+const giveBox=document.getElementById('giveBox');
+const botBox=document.getElementById('botBox');
+const picker=document.getElementById('swapPicker');
+let selectedSide='give';
+const tradeState={give:[],bot:[]};
+
+// Tag every value card with its tier (from the section-title just above its grid)
+// so we can filter down to Godly (Tier 5) items later.
+(function tagTiers(){
+  document.querySelectorAll('#values .section-title').forEach(title=>{
+    const m=title.textContent.match(/Tier\s*(\d+)/i);
+    if(!m) return;
+    const tier=m[1];
+    const grid=title.nextElementSibling;
+    if(grid && grid.classList.contains('grid')){
+      grid.querySelectorAll('.card').forEach(card=>card.dataset.tier=tier);
+    }
+  });
+})();
+
+function getValueCards(){
+  return [...document.querySelectorAll('#values .card')].map(card=>({
+    name:card.querySelector('.item-name')?.textContent.trim()||'Item',
+    value:Number((card.querySelector('.item-value')?.textContent||'0').replace(/[^0-9]/g,''))||0,
+    icon:card.querySelector('.item-img')?.textContent.trim()||'◆',
+    tier:Number(card.dataset.tier)||0
+  }));
+}
+function renderPicker(){
+  const items=getValueCards();
+  picker.innerHTML=items.map((item,i)=>`<div class="pick-card" data-index="${i}"><div class="pick-img">${item.icon}</div><div class="pick-name">${item.name}</div><div class="pick-val">💎 ${item.value}</div></div>`).join('');
+}
+
+// All-tiers popup (Tier 5 down to Tier 1) — opens when a "＋" add-slot is clicked
+const godlyModal=document.getElementById('godlyModal');
+const godlyScroll=document.getElementById('godlyScroll');
+const closeGodly=document.getElementById('closeGodly');
+let godlySlotSide=null;
+
+function openGodlyModal(side){
+  godlySlotSide=side;
+  selectSide(side);
+  const items=getValueCards();
+  let html='';
+  for(let tier=5;tier>=1;tier--){
+    const tierItems=items.map((item,i)=>({...item,i})).filter(item=>item.tier===tier);
+    if(!tierItems.length) continue;
+    html+=`<div class="godly-tier-title">TIER ${tier}</div><div class="picker-grid">`;
+    html+=tierItems.map(item=>`<div class="pick-card" data-index="${item.i}"><div class="pick-img">${item.icon}</div><div class="pick-name">${item.name}</div><div class="pick-val">💎 ${item.value}</div></div>`).join('');
+    html+='</div>';
+  }
+  godlyScroll.innerHTML=html;
+  godlyModal.classList.add('show');
+  godlyModal.setAttribute('aria-hidden','false');
+}
+function closeGodlyModal(){
+  godlyModal.classList.remove('show');
+  godlyModal.setAttribute('aria-hidden','true');
+  godlySlotSide=null;
+}
+closeGodly?.addEventListener('click',closeGodlyModal);
+godlyModal?.addEventListener('click',e=>{if(e.target===godlyModal) closeGodlyModal();});
+godlyScroll?.addEventListener('click',e=>{
+  const card=e.target.closest('.pick-card'); if(!card||!godlySlotSide)return;
+  const idx=Number(card.dataset.index);
+  const side=godlySlotSide;
+  if(tradeState[side].length<4 && !tradeState[side].includes(idx)){
+    tradeState[side].push(idx); renderTrade();
+  }
+  closeGodlyModal();
+});
+function selectSide(side){
+  selectedSide=side;
+  giveBox.classList.toggle('selected',side==='give');
+  botBox.classList.toggle('selected',side==='bot');
+}
+giveBox.addEventListener('click',e=>{if(!e.target.closest('.filled')) selectSide('give')});
+botBox.addEventListener('click',e=>{if(!e.target.closest('.filled')) selectSide('bot')});
+function renderTrade(){
+  const items=getValueCards();
+  for(const side of ['give','bot']){
+    const wrap=document.getElementById(side==='give'?'giveSlots':'botSlots');
+    wrap.innerHTML='';
+    for(let i=0;i<4;i++){
+      const idx=tradeState[side][i];
+      const slot=document.createElement('div'); slot.className='slot add-slot';
+      if(idx!==undefined){
+        const item=items[idx]; slot.className='slot filled';
+        slot.innerHTML=`<b>${item.icon} ${item.name}</b><small>💎 ${item.value}</small>`;
+        slot.title='Click to remove';
+        slot.addEventListener('click',e=>{e.stopPropagation();tradeState[side].splice(i,1);renderTrade()});
+      } else {slot.textContent='＋';slot.addEventListener('click',()=>openGodlyModal(side));}
+      wrap.appendChild(slot);
+    }
+    const total=tradeState[side].reduce((sum,idx)=>sum+(items[idx]?.value||0),0);
+    document.getElementById(side==='give'?'giveTotal':'botTotal').textContent='💎 '+total;
+  }
+}
+picker.addEventListener('click',e=>{
+  const card=e.target.closest('.pick-card'); if(!card)return;
+  const idx=Number(card.dataset.index);
+  if(tradeState[selectedSide].length<4 && !tradeState[selectedSide].includes(idx)){
+    tradeState[selectedSide].push(idx); renderTrade();
+  }
+});
+renderPicker(); renderTrade();
 showPage('values');
 </script>
 </body>
