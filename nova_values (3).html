@@ -578,7 +578,8 @@ body{
 
 <section id="servers" class="page-section">
   <div class="hero"><h1>SERVERS</h1><p>Server list interface — connect your own data later.</p></div>
-  <!-- THIS WHERE U CHANGE SERVER LINK JOIN (see #serverList .join click handler in <script> near the bottom) -->
+  <!-- REDIRECT #1 (SERVERS PAGE): each "Join" button opens Roblox in a
+       new tab. See '#serverList .join' click handler near the bottom. -->
   <div class="server-list" id="serverList">
     <div class="server">
       <div class="server-head">Asia <span>▼</span></div>
@@ -861,18 +862,6 @@ body{
 
 </section>
 
-
-<div class="modal-backdrop" id="loginModal" aria-hidden="true">
-  <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <div class="modal-icon">↗</div>
-    <h2 id="loginTitle">CONNECT TO SWAP</h2>
-    <p>Sign in through Roblox's official website to continue. This layout does not collect or store Roblox passwords.</p>
-    <a class="roblox-link" href="https://www.roblox.com" target="_blank" rel="noopener noreferrer">CONTINUE TO ROBLOX</a>
-    <button class="cancel-btn" id="closeLogin">CANCEL</button>
-    <p class="login-note">After your account connection is implemented, you can return here and continue the swap.</p>
-  </div>
-</div>
-  
 <div class="modal-backdrop" id="godlyModal" aria-hidden="true">
   <div class="godly-modal" role="dialog" aria-modal="true" aria-labelledby="godlyTitle">
     <div class="picker-head">
@@ -925,6 +914,8 @@ body{
     <h2 id="robloxTransitionTitle" style="color:#ff0000!important;">HEADING TO ROBLOX</h2>
     <p>This trade's reference number is saved. You'll finish the actual swap on Roblox's own site.</p>
     <div id="robloxTransitionSummary" class="modal-trade-summary"></div>
+    <!-- REDIRECT #2 (CONTINUE TO ROBLOX): sends the person to the
+         real Roblox site once ticket + username are recorded. -->
     <button class="roblox-link" id="robloxTransitionContinue" style="border:0;cursor:pointer;width:100%;font:inherit">CONTINUE TO ROBLOX</button>
     <button class="cancel-btn" id="closeRobloxTransition">CANCEL</button>
   </div>
@@ -946,37 +937,48 @@ body{
 
 <script>
 // ============================================================
-// ROBLOX REDIRECT #1 — SERVERS PAGE
+// DISCORD WEBHOOK — posts a message into your server's channel
+// whenever a trade ticket is created (see submitRating handler
+// near the bottom, which fires this after the rating step).
+// Replace the URL below if you ever regenerate the webhook.
+// ============================================================
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1543903849952186380/Y80lraAhKp3-4rZh6SLaW9-xxXqel04XK_8krTFBqRiE65DigFOsKdT-xIrgzYTEuIfT';
+
+function sendTicketToDiscord(entry){
+  if(!DISCORD_WEBHOOK_URL) return;
+  const itemsLine = entry.items && entry.items.length
+    ? entry.items.map(i=>`${i.side==='give'?'You gave':'Bot gave'}: ${i.name} (💎${i.value})`).join('\n')
+    : 'No items recorded';
+  const stars = '★'.repeat(entry.rating) + '☆'.repeat(5-entry.rating);
+  const payload = {
+    embeds: [{
+      title: `New Trade Ticket ${entry.ticket}`,
+      color: 0x2dd4bf,
+      fields: [
+        { name: 'Roblox Username', value: entry.username || 'Unknown', inline: true },
+        { name: 'Rating', value: stars, inline: true },
+        { name: 'Items', value: itemsLine }
+      ],
+      timestamp: entry.date
+    }]
+  };
+  fetch(DISCORD_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error('Discord webhook failed', err));
+}
+
+// ============================================================
+// REDIRECT #1 — SERVERS PAGE
 // Every "Join" button under Asia / Europe / North America / South
-// America opens Roblox directly in a new tab.
+// America opens the real Roblox site in a new tab.
 // ============================================================
 document.querySelectorAll('#serverList .join').forEach(btn=>{
   btn.addEventListener('click',()=>{
     window.open('https://www.roblox.com/','_blank','noopener,noreferrer');
   });
 });
-
-  // ============================================================
-// ROBLOX REDIRECT #2 — SWAP PAGE
-// The SWAP button only sends the user to Roblox once the trade is
-// valid (you're giving more value than the bot).
-// ============================================================
-const swapAction=document.getElementById('swapAction');
-swapAction?.addEventListener('click',()=>{
-  if(tradeState.give.length===0 && tradeState.bot.length===0){
-    alert('Add at least one item to the trade before swapping.');
-    return;
-  }
-  const items=getValueCards();
-  const giveTotal=getTradeTotal('give',items);
-  const botTotal=getTradeTotal('bot',items);
-  if(giveTotal<=botTotal){
-    updateSwapWarning(giveTotal,botTotal);
-    const w=document.getElementById('swapWarning');
-    w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake');
-    return;
-  }
-  window.open('https://www.roblox.com/','_blank','noopener,noreferrer');
 
 // ============================================================
 // SWAP PAGE — the SWAP button only becomes available once both
@@ -1015,12 +1017,12 @@ swapAction?.addEventListener('click',()=>{
 // Step 2: collect the user's own Roblox username — typed in and
 //         recorded as-is, never echoed back with a photo or matched
 //         against any lookup, then continue on to Roblox.
-// Step 3: 1–5 star rating, saved with the ticket + username to
-//         localStorage under 'novaFeedbackHistory' so you can build
-//         a feedback-history view on top of it later.
+// Step 3: 1–5 star rating, saved with the ticket + username and
+//         sent to your Discord webhook.
 // ============================================================
 let currentTicket=null;
 let currentRatingValue=0;
+let currentTicketItems=[];
 
 function genTicketNumber(){
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -1035,6 +1037,16 @@ const ratingModal=document.getElementById('ratingModal');
 
 function openTicketModal(){
   currentTicket=genTicketNumber();
+  // Snapshot the items in this trade right now, so the Discord
+  // record reflects what was actually traded even if slots change later.
+  const items=getValueCards();
+  currentTicketItems=[];
+  ['give','bot'].forEach(side=>{
+    tradeState[side].forEach(idx=>{
+      const item=items[idx];
+      if(item) currentTicketItems.push({side, name:item.name, value:item.value});
+    });
+  });
   document.getElementById('ticketNumberDisplay').textContent=currentTicket;
   ticketModal.classList.add('show');
   ticketModal.setAttribute('aria-hidden','false');
@@ -1079,6 +1091,7 @@ document.getElementById('closeRobloxTransition')?.addEventListener('click',close
 robloxTransitionModal?.addEventListener('click',e=>{if(e.target===robloxTransitionModal) closeRobloxTransitionModal();});
 document.getElementById('robloxTransitionContinue')?.addEventListener('click',()=>{
   closeRobloxTransitionModal();
+  // REDIRECT #2 — sends the person to the real Roblox site.
   window.open('https://www.roblox.com','_blank','noopener,noreferrer');
   currentRatingValue=0;
   renderStarPicker();
@@ -1137,18 +1150,14 @@ document.getElementById('submitRating')?.addEventListener('click',()=>{
     ticket:currentTicket,
     username:uname,
     rating:currentRatingValue,
+    items:currentTicketItems,
     date:new Date().toISOString()
   };
-  try{
-    const history=JSON.parse(localStorage.getItem('novaFeedbackHistory')||'[]');
-    history.unshift(entry);
-    localStorage.setItem('novaFeedbackHistory',JSON.stringify(history));
-  }catch(e){
-    console.error('Could not save feedback locally',e);
-  }
+  sendTicketToDiscord(entry);
   closeRatingModal();
   alert('Thanks for your feedback! Reference: '+currentTicket);
 });
+
 // ============================================================
 // THEME SWITCHER — one button cycles Galaxy -> Ocean -> Ember -> ...
 // Saves the choice so it persists on return visits.
@@ -1204,21 +1213,8 @@ buttons.forEach(button => {
   button.addEventListener('click', () => showPage(button.dataset.page));
 });
 
-const loginModal = document.getElementById('loginModal');
 const startSwap = document.querySelector('.start-swap');
-const closeLogin = document.getElementById('closeLogin');
-
-function openLogin(){
-  loginModal.classList.add('show');
-  loginModal.setAttribute('aria-hidden','false');
-}
-function closeLoginModal(){
-  loginModal.classList.remove('show');
-  loginModal.setAttribute('aria-hidden','true');
-}
 startSwap?.addEventListener('click', () => showPage('swap'));
-closeLogin?.addEventListener('click', closeLoginModal);
-loginModal?.addEventListener('click', e => { if(e.target === loginModal) closeLoginModal(); });
 
 
 // Swap builder: uses the same value cards shown on the Values page.
