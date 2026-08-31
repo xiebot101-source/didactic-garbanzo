@@ -920,28 +920,28 @@ body{
 
 <div class="modal-backdrop" id="robloxTransitionModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="robloxTransitionTitle">
-    <!-- THIS WHERE U CHANGE SWAP IMAGE (src below) -->
+
     <img class="modal-placeholder-img" src="https://jacevalues.com/images/kick.png" alt="Trade image">
 
     <div id="robloxTransitionTicketRef" class="modal-ticket-ref"></div>
 
-    <h2 id="robloxTransitionTitle" style="color: red;">
-      If your account is new/not level 10, you may not be able to join at all.
+    <h2 id="robloxTransitionTitle" style="color: #ff0000 !important;">
+      New accounts may not be able to join.
     </h2>
 
     <p>Our servers are PRIVATE servers, meaning you can get kicked.</p>
 
     <div id="robloxTransitionSummary" class="modal-trade-summary"></div>
 
-    <!-- THIS WHERE U CHANGE SWAP JOIN LINK (see #robloxTransitionContinue click handler in <script> near the bottom) -->
-    <button class="roblox-link" id="robloxTransitionContinue" style="border:0;cursor:pointer;width:100%;font:inherit">
+    <button class="roblox-link" id="robloxTransitionContinue"
+      style="border:0;cursor:pointer;width:100%;font:inherit">
       CONTINUE TO ROBLOX
     </button>
 
     <button class="cancel-btn" id="closeRobloxTransition">CANCEL</button>
   </div>
 </div>
-
+  
 <div class="modal-backdrop" id="ratingModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="ratingTitle">
     <div class="modal-icon">★</div>
