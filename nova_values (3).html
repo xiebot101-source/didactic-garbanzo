@@ -189,6 +189,12 @@ body:before{
   background:linear-gradient(135deg,var(--cyan),#24b7d6);
   color:#06121b;font-weight:900;cursor:pointer;
 }
+@keyframes startSwapPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(45,212,191,.5)}
+  50%{transform:scale(1.035);box-shadow:0 0 22px 4px rgba(45,212,191,.45)}
+}
+.start-swap{animation:startSwapPulse 1.8s ease-in-out infinite}
+.start-swap:hover{animation-play-state:paused}
 
 .server-list,.news-wrap,.swap-wrap{max-width:650px;margin:0 auto}
 .server{
@@ -290,7 +296,7 @@ body:before{
 @media(max-width:850px){.picker-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:520px){.picker-grid{grid-template-columns:repeat(3,1fr)}}
 
-footer{text-align:center;color:#5e6d84;font-size:10px;margin-top:45px}
+footer{text-align:center;color:#5e6d84;font-size:10px;padding:10px 0;flex:0 0 auto}
 
 
 /* BOOK-STYLE PAGES: only one section is visible at a time */
@@ -316,17 +322,20 @@ body{
   min-height: 0;
   width: 100%;
   margin: 0;
-  padding: 20px 30px 25px;
+  padding: 0;
   overflow: hidden;
+  position: relative;
 }
 
 .page-section {
   display: none;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 10px 0 0 !important;
+  padding: 20px 24px 25px 30px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   touch-action: pan-y;
@@ -334,6 +343,12 @@ body{
 
 .page-section.active-page {
   display: block;
+}
+
+#news, #servers {
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .page-section::-webkit-scrollbar {
@@ -373,7 +388,7 @@ body{
    phone, tighter than desktop. Keeps 2-column swap layout so trade
    boxes stay side-by-side, but grows touch targets. */
 @media(max-width:1024px){
- .page{padding:32px 24px 60px}
+ .page-section{padding:32px 24px 60px}
  .grid{grid-template-columns:repeat(5,1fr);gap:10px}
  .menu a,.menu .nav-btn{padding:10px 14px;font-size:12.5px}
  .server-row{padding:12px 15px}
@@ -411,7 +426,7 @@ body{
  .theme-btn{width:28px;height:28px;font-size:13px;border-radius:9px}
  .menu{flex:1 1 auto;min-width:0;justify-content:space-between;gap:2px;padding:4px}
  .menu .nav-btn{flex:1;min-width:0;text-align:center;padding:8px 3px;font-size:10.5px}
- .page{width:100%;padding:16px 12px 15px}
+ .page-section{padding:16px 12px 15px}
  .hero h1{font-size:34px}
  .grid{grid-template-columns:repeat(2,1fr)}
  .card{min-height:120px}
@@ -458,19 +473,45 @@ body{
 .login-modal p{margin:0 auto 20px;color:var(--muted);font-size:13px;line-height:1.6;max-width:340px}
 .login-modal .roblox-link{display:flex;align-items:center;justify-content:center;width:100%;height:46px;border-radius:11px;text-decoration:none;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 28px rgba(255,61,129,.18)}
 .login-modal .cancel-btn{margin-top:10px;width:100%;height:42px;border:1px solid #293b57;border-radius:10px;background:#0b1526;color:#9aa8bd;font-weight:700;cursor:pointer}
-.godly-modal{width:min(560px,100%);max-height:80vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#111d33,#0c1425);border:1px solid #29405f;border-top:3px solid var(--purple);border-radius:20px;padding:22px;box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:left}
+.godly-modal{width:min(920px,92vw);max-height:82vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#111d33,#0c1425);border:1px solid #29405f;border-top:3px solid var(--purple);border-radius:20px;padding:26px;box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:left;position:relative}
+.godly-scroll-btns{position:absolute;right:-56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:5}
+.godly-scroll-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:rgba(15,30,45,.9);color:var(--text);font-size:15px;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.35);transition:.15s}
+.godly-scroll-btn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-1px)}
+@media(max-width:700px){.godly-scroll-btns{right:8px;top:auto;bottom:70px;transform:none;flex-direction:column}}
 .godly-search{width:100%;flex:0 0 auto;margin-bottom:12px;padding:11px 14px;border-radius:9px;border:1px solid #263653;outline:none;background:#0b1426;color:#fff;font-size:13px}
 .godly-search::placeholder{color:#5e6d84}
 .godly-modal .picker-head{margin-bottom:14px;flex:0 0 auto}
 .godly-modal .picker-head strong{font-size:16px;font-family:"Barlow Condensed",sans-serif;letter-spacing:1px}
-.godly-modal .picker-grid{grid-template-columns:repeat(6,1fr);max-height:none;overflow:visible}
+.godly-modal .picker-grid{grid-template-columns:repeat(6,1fr);max-height:none;overflow:visible;gap:14px}
+.godly-modal .pick-card{min-height:158px;padding:16px 8px;border-radius:14px}
+.godly-modal .pick-card .pick-img{font-size:48px;margin-bottom:6px}
+.godly-modal .pick-card .pick-name{font-size:12.5px;margin-top:6px}
+.godly-modal .pick-card .pick-val{font-size:12.5px;margin-top:5px}
+@media(max-width:1024px){
+  .godly-modal{width:min(700px,92vw)}
+  .godly-modal .picker-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:700px){
+  .godly-modal{width:100%;max-height:90vh;padding:18px}
+  .godly-modal .picker-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .godly-modal .pick-card{min-height:128px;padding:12px 6px}
+  .godly-modal .pick-card .pick-img{font-size:34px;margin-bottom:4px}
+  .godly-modal .pick-card .pick-name{font-size:11px}
+  .godly-modal .pick-card .pick-val{font-size:11px}
+}
+@media(max-width:480px){
+  .godly-modal .picker-grid{grid-template-columns:repeat(2,1fr);gap:9px}
+  .godly-modal .pick-card{min-height:145px;padding:14px 8px}
+  .godly-modal .pick-card .pick-img{font-size:40px}
+  .godly-modal .pick-card .pick-name{font-size:12.5px}
+  .godly-modal .pick-card .pick-val{font-size:12.5px}
+}
 .godly-modal .cancel-btn{margin-top:14px;width:100%;height:42px;border:1px solid #293b57;border-radius:10px;background:#0b1526;color:#9aa8bd;font-weight:700;cursor:pointer;flex:0 0 auto}
 #godlyScroll{flex:1 1 auto;min-height:0;overflow-y:auto;padding-right:6px}
 #godlyScroll::-webkit-scrollbar{width:5px}
 #godlyScroll::-webkit-scrollbar-thumb{background:#263653;border-radius:10px}
 .godly-tier-title{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--cyan);margin:14px 0 7px}
 .godly-tier-title:first-child{margin-top:0}
-@media(max-width:520px){.godly-modal{max-height:88vh}.godly-modal .picker-grid{grid-template-columns:repeat(3,1fr)}}
 .modal-placeholder-img{width:64px;height:64px;border-radius:14px;margin:0 auto 14px;display:block;object-fit:cover}
 .modal-trade-summary{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:2px 0 18px}
 .modal-trade-summary .mts-item{display:flex;flex-direction:column;align-items:center;gap:3px;background:#0b1426;border:1px solid #263653;border-radius:9px;padding:6px;width:64px}
@@ -489,7 +530,8 @@ body{
 
 <header class="topbar">
   <div class="brand">
-    <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwM5jM_dFRpeK3-bANYaFC03MovKpYMC3JXbHyQzDvg5dNZicc3Qi4d48&s=10?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Logo">
+    <!-- THIS WHERE U CHANGE LOGO IMAGE (src below) -->
+    <img class="logo" src="https://chatgpt.com/backend-api/estuary/content?id=file_00000000942881f5af8422115cb19fbb&ts=496711&p=fs&cid=1&sig=8e4678120e45f4e7759a0b6bf7f4676a088255ace23e091bc3dfd77b8f50559a&v=0?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Logo">
     <div class="theme-switcher" id="themeSwitcher">
       <button class="theme-btn" id="themeCycleBtn" title="Switch theme">🌌</button>
     </div>
@@ -511,16 +553,20 @@ body{
   </div>
   <div class="news-wrap">
     <article class="news-card">
-      <span class="badge">⚡ SYSTEM UPDATE</span>
-      <h2>THE SWAP SYSTEM HAS ARRIVED</h2>
-      <p>Trade with a private bot experience. This page is a visual HTML layout only, ready for you to connect your own functions.</p>
+      <span class="badge" style="background:rgba(45,212,191,.15);color:#2dd4bf;border:1px solid rgba(45,212,191,.35)">💠 SWAP SYSTEM LIVE</span>
+      <h2 style="background:linear-gradient(90deg,#2dd4bf,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent">THE SWAP SYSTEM HAS ARRIVED</h2>
+      <p>Trade with the Jace bot like a VIP. Private bot links mean no public lobbies, no scammers — just you, the bot, and the trade.</p>
       <ul>
-        <li>All godlies with live value cards</li>
-        <li>Stack any item from your collection</li>
-        <li>Private trade layout</li>
+        <li>All 178 godlies with live gem values</li>
+        <li>Stack any godly from x1 to x99</li>
+        <li>Private bot links</li>
         <li>Instant swap confirmation</li>
       </ul>
-      <button class="primary start-swap" style="height:38px">START SWAPPING</button>
+      <div style="display:flex;gap:8px;margin:4px 0 16px">
+        <span style="display:inline-flex;align-items:baseline;gap:5px;background:rgba(255,255,255,.04);border:1px solid #263653;border-radius:10px;padding:8px 14px"><b style="font-size:15px;color:#fff">178</b><span style="font-size:12px;color:var(--muted)">godlies</span></span>
+        <span style="display:inline-flex;align-items:baseline;gap:5px;background:rgba(255,255,255,.04);border:1px solid #263653;border-radius:10px;padding:8px 14px"><b style="font-size:15px;color:#fff">5</b><span style="font-size:12px;color:var(--muted)">value tiers</span></span>
+      </div>
+      <button class="primary start-swap" style="height:38px;background:linear-gradient(135deg,#2dd4bf,#0ea5e9);color:#06121b">START SWAPPING</button>
     </article>
     <article class="news-card">
       <span class="badge">📢 NEW ANNOUNCEMENT</span>
@@ -532,6 +578,7 @@ body{
 
 <section id="servers" class="page-section">
   <div class="hero"><h1>SERVERS</h1><p>Server list interface — connect your own data later.</p></div>
+  <!-- THIS WHERE U CHANGE SERVER LINK JOIN (see #serverList .join click handler in <script> near the bottom) -->
   <div class="server-list" id="serverList">
     <div class="server">
       <div class="server-head">Asia <span>▼</span></div>
@@ -835,6 +882,10 @@ body{
     <input id="godlySearch" class="godly-search" placeholder="Search values...">
     <div id="godlyScroll"></div>
     <button class="cancel-btn" id="closeGodly">CANCEL</button>
+    <div class="godly-scroll-btns">
+      <button type="button" class="godly-scroll-btn" id="godlyScrollUp" title="Scroll up" aria-label="Scroll up">▲</button>
+      <button type="button" class="godly-scroll-btn" id="godlyScrollDown" title="Scroll down" aria-label="Scroll down">▼</button>
+    </div>
   </div>
 </div>
 
@@ -845,6 +896,7 @@ body{
      PLACEHOLDER_IMG below = swap in your own art/logo later. -->
 <div class="modal-backdrop" id="ticketModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
+    <!-- THIS WHERE U CHANGE REFERENCE IMAGE (src below) -->
     <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <h2 id="ticketTitle">SWAP REFERENCE</h2>
     <p>Save this reference number — use it if you ever need to report a problem with this trade.</p>
@@ -856,6 +908,7 @@ body{
 
 <div class="modal-backdrop" id="usernameModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="usernameTitle">
+    <!-- THIS WHERE U CHANGE ROBLOX USERNAME IMAGE (src below) -->
     <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <h2 id="usernameTitle">YOUR ROBLOX USERNAME</h2>
     <p>Enter your Roblox username so it's attached to this trade's reference number, then continue to Roblox to finish the swap.</p>
@@ -867,11 +920,13 @@ body{
 
 <div class="modal-backdrop" id="robloxTransitionModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="robloxTransitionTitle">
+    <!-- THIS WHERE U CHANGE SWAP IMAGE (src below) -->
     <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <div id="robloxTransitionTicketRef" class="modal-ticket-ref"></div>
     <h2 id="robloxTransitionTitle">HEADING TO ROBLOX</h2>
     <p>This trade's reference number is saved. You'll finish the actual swap on Roblox's own site.</p>
     <div id="robloxTransitionSummary" class="modal-trade-summary"></div>
+    <!-- THIS WHERE U CHANGE SWAP JOIN LINK (see #robloxTransitionContinue click handler in <script> near the bottom) -->
     <button class="roblox-link" id="robloxTransitionContinue" style="border:0;cursor:pointer;width:100%;font:inherit">CONTINUE TO ROBLOX</button>
     <button class="cancel-btn" id="closeRobloxTransition">CANCEL</button>
   </div>
@@ -888,8 +943,8 @@ body{
   </div>
 </div>
 
-<footer>© 2026 Nova Values. All rights reserved. · HTML/CSS layout only.</footer>
 </main>
+<footer>© 2026 Nova Values. All rights reserved. · Powered by Nova™</footer>
 
 <script>
 // ============================================================
@@ -1214,7 +1269,7 @@ function openGodlyModal(side){
     const tierItems=items.map((item,i)=>({...item,i})).filter(item=>item.tier===tier);
     if(!tierItems.length) continue;
     html+=`<div class="godly-tier-title">TIER ${tier}</div><div class="picker-grid">`;
-    html+=tierItems.map(item=>`<div class="pick-card" data-index="${item.i}"><div class="pick-img">${iconAsInlineHTML(item.icon,28)}</div><div class="pick-name">${item.name}</div><div class="pick-val">💎 ${item.value}</div></div>`).join('');
+    html+=tierItems.map(item=>`<div class="pick-card" data-index="${item.i}"><div class="pick-img">${iconAsInlineHTML(item.icon,48)}</div><div class="pick-name">${item.name}</div><div class="pick-val">💎 ${item.value}</div></div>`).join('');
     html+='</div>';
   }
   godlyScroll.innerHTML=html;
@@ -1249,6 +1304,12 @@ function closeGodlyModal(){
 }
 closeGodly?.addEventListener('click',closeGodlyModal);
 godlyModal?.addEventListener('click',e=>{if(e.target===godlyModal) closeGodlyModal();});
+document.getElementById('godlyScrollUp')?.addEventListener('click',()=>{
+  godlyScroll.scrollBy({top:-220,behavior:'smooth'});
+});
+document.getElementById('godlyScrollDown')?.addEventListener('click',()=>{
+  godlyScroll.scrollBy({top:220,behavior:'smooth'});
+});
 godlyScroll?.addEventListener('click',e=>{
   const card=e.target.closest('.pick-card'); if(!card||!godlySlotSide)return;
   const idx=Number(card.dataset.index);
