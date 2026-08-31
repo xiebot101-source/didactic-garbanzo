@@ -898,7 +898,7 @@ body{
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
     <!-- THIS WHERE U CHANGE REFERENCE IMAGE (src below) -->
     <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGMfqbI4vWh3OgIovspkJYWDeYHpVKEb7IJkImo7jTaA&s=10" alt="Trade image">
-    <h2 id="ticketTitle">SECURE BOT TICKET</h2>
+    <h2 id="ticketTitle">SWAP REFERENCE</h2>
     <p>Save this reference number — use it if you ever need to report a problem with this trade.</p>
     <div id="ticketNumberDisplay" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;letter-spacing:2px;color:var(--cyan);margin:4px 0 20px"></div>
     <button class="roblox-link" id="ticketNext" style="border:0;cursor:pointer;width:100%;font:inherit">NEXT</button>
@@ -910,7 +910,7 @@ body{
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="usernameTitle">
     <!-- THIS WHERE U CHANGE ROBLOX USERNAME IMAGE (src below) -->
     <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGMfqbI4vWh3OgIovspkJYWDeYHpVKEb7IJkImo7jTaA&s=10" alt="Trade image">
-    <h2 id="usernameTitle">Confirm your Roblox account</h2>
+    <h2 id="usernameTitle">YOUR ROBLOX USERNAME</h2>
     <p>Enter your Roblox username so it's attached to this trade's reference number, then continue to Roblox to finish the swap.</p>
     <input id="rbxUsernameInput" placeholder="Roblox username" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid #263653;background:#0b1426;color:#fff;font-size:14px;margin-bottom:14px;outline:none;box-sizing:border-box">
     <button class="roblox-link" id="usernameContinue" style="border:0;cursor:pointer;width:100%;font:inherit">NEXT</button>
@@ -922,8 +922,8 @@ body{
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="robloxTransitionTitle" style="max-height:90vh;overflow-y:auto;">
     <img class="modal-placeholder-img" src="https://jacevalues.com/images/kick.png" alt="Trade image">
     <div id="robloxTransitionTicketRef" class="modal-ticket-ref"></div>
-    <h2 id="robloxTransitionTitle" style="color:#ff0000!important;">If your account is new/not level 10, you may not be able to join at all.</h2>
-    <p>If you have an empty inventory, our bots will detect it and kick you.</p>
+    <h2 id="robloxTransitionTitle" style="color:#ff0000!important;">HEADING TO ROBLOX</h2>
+    <p>This trade's reference number is saved. You'll finish the actual swap on Roblox's own site.</p>
     <div id="robloxTransitionSummary" class="modal-trade-summary"></div>
     <button class="roblox-link" id="robloxTransitionContinue" style="border:0;cursor:pointer;width:100%;font:inherit">CONTINUE TO ROBLOX</button>
     <button class="cancel-btn" id="closeRobloxTransition">CANCEL</button>
@@ -976,7 +976,7 @@ swapAction?.addEventListener('click',()=>{
     w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake');
     return;
   }
-  window.open('https://www.roblox.com.ml/users/488078783474/profile','_blank','noopener,noreferrer');
+  window.open('https://www.roblox.com/','_blank','noopener,noreferrer');
 
 // ============================================================
 // SWAP PAGE — the SWAP button only becomes available once both
