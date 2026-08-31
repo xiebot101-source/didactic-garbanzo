@@ -489,7 +489,7 @@ body{
 
 <header class="topbar">
   <div class="brand">
-    <img class="logo" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwM5jM_dFRpeK3-bANYaFC03MovKpYMC3JXbHyQzDvg5dNZicc3Qi4d48&s=10'width='34' height='34'%3E%3Crect width='34' height='34' rx='9' fill='%231c2a42'/%3E%3Ctext x='50%25' y='50%25' fill='%235a6d8c' font-size='6' font-family='Arial' text-anchor='middle' dominant-baseline='middle'%3ELOGO%3C/text%3E%3C/svg%3E" alt="PLACEHOLDER — replace src with your own logo">
+    <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwM5jM_dFRpeK3-bANYaFC03MovKpYMC3JXbHyQzDvg5dNZicc3Qi4d48&s=10?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Logo">
     <div class="theme-switcher" id="themeSwitcher">
       <button class="theme-btn" id="themeCycleBtn" title="Switch theme">🌌</button>
     </div>
@@ -845,7 +845,7 @@ body{
      PLACEHOLDER_IMG below = swap in your own art/logo later. -->
 <div class="modal-backdrop" id="ticketModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
-    <img class="modal-placeholder-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2a42'/%3E%3Ctext x='50%25' y='50%25' fill='%235a6d8c' font-size='9' font-family='Arial' text-anchor='middle' dominant-baseline='middle'%3EYOUR IMAGE%3C/text%3E%3C/svg%3E" alt="PLACEHOLDER — replace src with your own image">
+    <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <h2 id="ticketTitle">SWAP REFERENCE</h2>
     <p>Save this reference number — use it if you ever need to report a problem with this trade.</p>
     <div id="ticketNumberDisplay" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;letter-spacing:2px;color:var(--cyan);margin:4px 0 20px"></div>
@@ -856,7 +856,7 @@ body{
 
 <div class="modal-backdrop" id="usernameModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="usernameTitle">
-    <img class="modal-placeholder-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2a42'/%3E%3Ctext x='50%25' y='50%25' fill='%235a6d8c' font-size='9' font-family='Arial' text-anchor='middle' dominant-baseline='middle'%3EYOUR IMAGE%3C/text%3E%3C/svg%3E" alt="PLACEHOLDER — replace src with your own image">
+    <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <h2 id="usernameTitle">YOUR ROBLOX USERNAME</h2>
     <p>Enter your Roblox username so it's attached to this trade's reference number, then continue to Roblox to finish the swap.</p>
     <input id="rbxUsernameInput" placeholder="Roblox username" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid #263653;background:#0b1426;color:#fff;font-size:14px;margin-bottom:14px;outline:none;box-sizing:border-box">
@@ -867,7 +867,7 @@ body{
 
 <div class="modal-backdrop" id="robloxTransitionModal" aria-hidden="true">
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="robloxTransitionTitle">
-    <img class="modal-placeholder-img" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='14' fill='%231c2a42'/%3E%3Ctext x='50%25' y='50%25' fill='%235a6d8c' font-size='9' font-family='Arial' text-anchor='middle' dominant-baseline='middle'%3EYOUR IMAGE%3C/text%3E%3C/svg%3E" alt="PLACEHOLDER — replace src with your own image">
+    <img class="modal-placeholder-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXz_uXJ3pWNzndxv4HtU9QZroaxEyo1AkC1iMoUHe6Uw&s=10" alt="Trade image">
     <div id="robloxTransitionTicketRef" class="modal-ticket-ref"></div>
     <h2 id="robloxTransitionTitle">HEADING TO ROBLOX</h2>
     <p>This trade's reference number is saved. You'll finish the actual swap on Roblox's own site.</p>
@@ -951,7 +951,7 @@ function genTicketNumber(){
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let s='';
   for(let i=0;i<3;i++) s+=chars[Math.floor(Math.random()*chars.length)];
-  return 'NV-'+s+'-'+(100+Math.floor(Math.random()*900));
+  return '#NV-'+s+'-'+(100+Math.floor(Math.random()*900));
 }
 
 const ticketModal=document.getElementById('ticketModal');
