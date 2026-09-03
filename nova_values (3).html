@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Values</title>
+<title>Doge Values</title>
 <script>
 // Applies any saved theme to <html> before the stylesheet paints, so the
 // page never flashes the default theme first. Must run before <style>.
 (function(){
   try{
-    var t=localStorage.getItem('novaTheme');
+    var t=localStorage.getItem('dogeTheme');
     if(t && t!=='galaxy') document.documentElement.setAttribute('data-theme',t);
   }catch(e){}
 })();
@@ -548,7 +548,7 @@ body{
 
 <section id="news" class="page-section">
   <div class="hero">
-    <h1>NOVA VALUES</h1>
+    <h1>DOGE VALUES</h1>
     <p>A clean community hub for values, servers and swapping.</p>
   </div>
   <div class="news-wrap">
@@ -570,7 +570,7 @@ body{
     </article>
     <article class="news-card">
       <span class="badge">📢 NEW ANNOUNCEMENT</span>
-      <h2>WELCOME TO NOVA VALUES</h2>
+      <h2>WELCOME TO DOGE VALUES</h2>
       <p>Browse the value list and server layout below.</p>
     </article>
   </div>
@@ -831,7 +831,7 @@ body{
 </section>
 
 <section id="swap" class="page-section">
-  <div class="hero"><h1>NOVA SWAP</h1><p>Select items from the value list and build both sides of the trade.</p></div>
+  <div class="hero"><h1>DOGE SWAP</h1><p>Select items from the value list and build both sides of the trade.</p></div>
   <div class="swap-warning" id="swapWarning" style="display:none">
     <span class="swap-warning-icon">⚡</span>
     <span id="swapWarningText"></span>
@@ -933,7 +933,7 @@ body{
 </div>
 
 </main>
-<footer>© 2026 Nova Values. All rights reserved. · Powered by Nova™</footer>
+<footer>© 2026 Doge Values. All rights reserved. · Powered by Doge™</footer>
 
 <script>
 // ============================================================
@@ -1183,7 +1183,7 @@ function setTheme(name){
     themeCycleBtn.title=THEME_META[name].label;
     themeCycleBtn.dataset.theme=name;
   }
-  try{ localStorage.setItem('novaTheme',name); }catch(e){}
+  try{ localStorage.setItem('dogeTheme',name); }catch(e){}
 }
 themeCycleBtn?.addEventListener('click',()=>{
   const current=themeCycleBtn.dataset.theme||'galaxy';
@@ -1192,7 +1192,7 @@ themeCycleBtn?.addEventListener('click',()=>{
 });
 (function initTheme(){
   let saved='galaxy';
-  try{ saved=localStorage.getItem('novaTheme')||'galaxy'; }catch(e){}
+  try{ saved=localStorage.getItem('dogeTheme')||'galaxy'; }catch(e){}
   setTheme(saved);
 })();
 
